@@ -17,10 +17,11 @@ async function getJson(url){
             throw new Error(`Response Error: ${response.status}`);
         };
 
-        const weatherData = await response.json();
+        const weatherJson = await response.json();
 
-        console.log(weatherData);
-
+        const weatherData = getData(weatherJson, unitGroup);
+        console.log(weatherData)
+        
     } catch(err){
         throw new Error(err)
     }
@@ -30,17 +31,20 @@ async function getJson(url){
 function getData(json, unit){
     const tempUnit = unit === "us" ? "°F" : "°C";
     const windUnit = unit === "metric" ? "Km/h" : "mph";
+    const windDeg = json.currentConditions.winddir;
+    const windDir = getWindDir(windDeg)
 
     let weatherData = {
-        adress: json.adress,
+        address: json.address,
         conditions: json.currentConditions.conditions,
-        actualTemp: json.currentConditions.temp + "" + tempUnit,
-        feelsLike: json.currentConditions.feelslike + "" + tempUnit,
-
-        windSpeed: json.currentConditions.windspeed + "" + windUnit
+        actualTemp: json.currentConditions.temp + " " + tempUnit,
+        feelsLike: json.currentConditions.feelslike + " " + tempUnit,
+        windDeg,
+        windDir,
+        windSpeed: json.currentConditions.windspeed + " " + windUnit
     }
 
-    const windDir = json.currentConditions.windDir;
+    return weatherData
 };
 
 
