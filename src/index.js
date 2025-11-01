@@ -88,6 +88,7 @@ function getActualData(json) {
   return weatherData;
 }
 
+
 function getWindDir(deg) {
   const directions = {
     N: {
@@ -140,6 +141,14 @@ function getWindDir(deg) {
 
   return result;
 }
+
+
+submitLocationButton.addEventListener('click', (event)=>{
+  event.preventDefault();
+
+  const location = getLocation();
+  getURL(location);
+})
 
 
 getURL("paris");
