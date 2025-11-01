@@ -31,11 +31,12 @@ function getActualData(json, unit) {
   const windDir = getWindDir(windDeg);
 
   let weatherData = {
-    address: json.address,
+    address: json.resolvedAddress,
     conditions: json.currentConditions.conditions,
     actualTemp: json.currentConditions.temp + " " + tempUnit,
     feelsLike: json.currentConditions.feelslike + " " + tempUnit,
     humidity: json.currentConditions.humidity + " %",
+    precipitationChance : json.currentConditions.precipprob + " %",
     windDeg,
     windDir,
     windSpeed: json.currentConditions.windspeed + " " + windUnit,
@@ -97,4 +98,4 @@ function getWindDir(deg) {
   return result;
 }
 
-getURL("paris", unitGroup);
+getURL("jamaique", unitGroup);

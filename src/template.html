@@ -5,5 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>weather-app</title>
   </head>
-  <body></body>
+  <body>
+    <div>
+      <form action="#">
+        <div>
+          <input type="search" placeholder="search for a city, region, location...">
+        </div>
+        <div>
+          <label for="tempUnit">icon termometre</label>
+          <select name="tempUnit" id="tempUnit">
+            <optgroup label="temperatur unit">
+              <option value="fahrenheit">°F</option>
+              <option value="celsius">°C</option>
+            </optgroup>
+          </select>
+        </div>
+        <div>
+          <label for="windUnit">icon drapeau vent</label>
+          <select name="windUnit" id="windUnit">
+            <optgroup label="wind unit">
+              <option value="milesHour">mph</option>
+              <option value="kilometreHour">km/h</option>              
+            </optgroup>
+          </select>
+        </div>
+        <div>
+          <button>
+            icon here
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
 </html>
