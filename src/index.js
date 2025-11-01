@@ -1,32 +1,46 @@
 import "./style.css";
 
-let unitGroup = "metric";
 
-function getURL(location, unit) {
-  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=QZQJWVZEFRGJ3V7D55UPCMH24&unitGroup=${unit}`;
-  getJson(url);
+function getURL(location) {
+  const metric = 'metric';
+
+  const metricUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=QZQJWVZEFRGJ3V7D55UPCMH24&unitGroup=${metric}`;
+  const usUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=QZQJWVZEFRGJ3V7D55UPCMH24`;
+
+  getJson(usUrl, metricUrl);
 }
 
-async function getJson(url) {
+async function getJson(usUrl, metricUrl) {
   try {
-    const response = await fetch(url);
+    const promises = [
+      fetch(usUrl).then(function(response){return checkResponseError(response)}),
+      fetch(metricUrl).then(function(response){return checkResponseError(response)}),
+    ]
 
-    if (!response.ok) {
-      throw new Error(`Response Error: ${response.status}`);
-    }
 
-    const weatherJson = await response.json();
-    console.log(weatherJson)
-    const weatherData = getActualData(weatherJson, unitGroup);
-    console.log(weatherData);
+    const weatherJson = await Promise.all(promises)
+    console.log(weatherJson);
+
+    // const weatherData = getActualData(weatherJson, unitGroup);
+    // console.log(weatherData);
   } catch (err) {
     throw new Error(err);
   }
 }
 
-function getActualData(json, unit) {
+
+function checkResponseError(response){
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response.json()
+}
+
+
+function getActualData(json) {
   const tempUnit = unit === "us" ? "°F" : "°C";
-  const windUnit = unit === "metric" ? "km/h" : "mph";
+  const windUnit = unit === "us" ? "mph" : "km/h";
   const windDeg = json.currentConditions.winddir;
   const windDir = getWindDir(windDeg);
 
@@ -98,4 +112,5 @@ function getWindDir(deg) {
   return result;
 }
 
-getURL("jamaique", unitGroup);
+
+getURL("paris");
