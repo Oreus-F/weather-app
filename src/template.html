@@ -29,12 +29,16 @@
           <div class="dataBox">
             <div class="tempBox">
               <div>
-                <button id="usUnitButton">
-                  <p>°F</p>
-                </button>
-                <button id="metricUnitButton">
-                  <p>°C</p>
-                </button>
+                <fieldset>
+                  <label for="usUnit">
+                    <p>°F</p>
+                    <input type="radio" name="unitGroup" id="usUnit" value="us">
+                  </label>
+                  <label for="metricUnit">
+                    <p>°C</p>
+                    <input type="radio" name="unitGroup" id="metricUnit" value="metric">
+                  </label>
+                </fieldset>
               </div>
               <div>
                 <p id="actualTempBox"></p>
