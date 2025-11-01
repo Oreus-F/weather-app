@@ -16,17 +16,17 @@ async function getJson(url) {
     }
 
     const weatherJson = await response.json();
-
-    const weatherData = getData(weatherJson, unitGroup);
+    console.log(weatherJson)
+    const weatherData = getActualData(weatherJson, unitGroup);
     console.log(weatherData);
   } catch (err) {
     throw new Error(err);
   }
 }
 
-function getData(json, unit) {
+function getActualData(json, unit) {
   const tempUnit = unit === "us" ? "°F" : "°C";
-  const windUnit = unit === "metric" ? "Km/h" : "mph";
+  const windUnit = unit === "metric" ? "km/h" : "mph";
   const windDeg = json.currentConditions.winddir;
   const windDir = getWindDir(windDeg);
 
