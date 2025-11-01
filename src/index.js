@@ -143,11 +143,25 @@ function getWindDir(deg) {
 }
 
 
+function checkSearchValid(){
+  const searchBar = document.querySelector('#searchBar');
+  const validityState = searchBar.validity;
+
+  if(validityState.valueMissing){
+    searchBar.reportValidity()
+    searchBar.setCustomValidity("You must write a location here !")
+  } else {
+    const location = getLocation();
+    getURL(location)
+  }
+
+}
+
+
 submitLocationButton.addEventListener('click', (event)=>{
   event.preventDefault();
 
-  const location = getLocation();
-  getURL(location);
+  checkSearchValid()
 })
 
 
