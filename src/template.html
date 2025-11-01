@@ -24,25 +24,26 @@
         <div class="dataContent">
           <div class="mainBox">
             <div class="iconBox"></div>
-            <div class="locationBox"></div>
+            <div class="locationBox">
+              <h3 id="addressBox"></h3>
+              <p id="conditionsBox"></p>
+            </div>
           </div>
           <div class="dataBox">
             <div class="tempBox">
-              <div>
-                <fieldset>
-                  <label for="usUnit">
-                    <p>°F</p>
-                    <input type="radio" name="unitGroup" id="usUnit" value="us">
-                  </label>
-                  <label for="metricUnit">
-                    <p>°C</p>
-                    <input type="radio" name="unitGroup" id="metricUnit" value="metric">
-                  </label>
-                </fieldset>
+              <div id="unitGroupBox">
+                <label for="usUnit">
+                  <p>°F</p>
+                  <input type="radio" name="unitGroup" id="usUnit" value="us" checked>
+                </label>
+                <label for="metricUnit">
+                  <p>°C</p>
+                  <input type="radio" name="unitGroup" id="metricUnit" value="metric">
+                </label>
               </div>
               <div>
                 <p id="actualTempBox"></p>
-                <p id="actuelFeelLikeBox"></p>
+                <p id="actualFeelLikeBox"></p>
               </div>
             </div>
             <div class="windBox">

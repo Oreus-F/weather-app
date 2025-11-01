@@ -1,11 +1,18 @@
 import "./style.css";
-const submitLocationButton = document.querySelector('#submitLocation')
+
+const submitLocationButton = document.querySelector('#submitLocation');
+const usUnitRadio = document.querySelector('#usUnit');
+const metricUnitRadio = document.querySelector('#metricUnit');
+
+
+let weatherData;
 
 
 function getLocation(){
   const searchBar = document.querySelector('#searchBar');
   const value = searchBar.value;
-
+  const usUnit = document.querySelector('#usUnit');
+  const metricUnit = document.querySelector('#metricUnit');
   return value
 }
 
@@ -28,10 +35,10 @@ async function getJson(usUrl, metricUrl) {
 
 
     const weatherJson = await Promise.all(promises)
-    console.log(weatherJson);
 
     const weatherData = getActualData(weatherJson);
-    console.log(weatherData);
+
+    displayData(weatherData)
   } catch (err) {
     throw new Error(err);
   }
@@ -59,7 +66,7 @@ function getActualData(json) {
   const windDeg = usData.currentConditions.winddir;
   const windDir = getWindDir(windDeg);
 
-  let weatherData = {
+  weatherData = {
     us :{
       address: usData.resolvedAddress,
       conditions: usData.currentConditions.conditions,
@@ -158,11 +165,61 @@ function checkSearchValid(){
 }
 
 
+function displayData(json){
+  const unitGroup = getUnitGroup();
+  const data = json[unitGroup];
+  let address = (data.address).split('')
+  .map((letter, index) => {
+    if(index ===0){
+      return letter.toUpperCase()
+    } else {return letter}
+  }).join('')
+
+  // query icon Here
+  const addressBox = document.querySelector('#addressBox');
+  const conditionsBox = document.querySelector('#conditionsBox');
+  const actualTempBox = document.querySelector('#actualTempBox');
+  const actualFeelLikeBox = document.querySelector('#actualFeelLikeBox');
+  // query arrow Here
+  const windDirBox = document.querySelector('#windDirBox');
+  const windSpeedBox = document.querySelector('#windSpeedBox');
+  const humidityBox = document.querySelector('#humidityBox');
+  const precipitationBox = document.querySelector('#precipitationBox');  
+
+
+  // apply icon here
+  addressBox.textContent = address;
+  conditionsBox.textContent = data.conditions;
+  actualTempBox.textContent = data.actualTemp;
+  actualFeelLikeBox.textContent = data.feelsLike;
+  windDirBox.textContent = data.windDir;
+  windSpeedBox.textContent = data.windSpeed;
+  humidityBox.textContent = data.humidity;
+  precipitationBox.textContent = data.precipitationChance
+
+  console.log(data)
+}
+
+
+function getUnitGroup(){
+  const usUnit = document.querySelector('#usUnit');
+  const metricUnit = document.querySelector('#metricUnit');
+
+  let result = usUnit.checked ? usUnit.value : metricUnit.value
+
+  return result
+}
+
+
 submitLocationButton.addEventListener('click', (event)=>{
   event.preventDefault();
 
   checkSearchValid()
-})
+});
+
+
+usUnitRadio.addEventListener('change', ()=> {displayData(weatherData)});
+metricUnitRadio.addEventListener('change', ()=> {displayData(weatherData)})
 
 
 getURL("paris");
