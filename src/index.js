@@ -1,6 +1,15 @@
 import "./style.css";
 const submitLocationButton = document.querySelector('#submitLocation')
 
+
+function getLocation(){
+  const searchBar = document.querySelector('#searchBar');
+  const value = searchBar.value;
+
+  return value
+}
+
+
 function getURL(location) {
   const metric = 'metric';
 
