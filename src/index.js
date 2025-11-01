@@ -1,5 +1,5 @@
 import "./style.css";
-
+const submitLocationButton = document.querySelector('#submitLocation')
 
 function getURL(location) {
   const metric = 'metric';
