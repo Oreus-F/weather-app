@@ -21,8 +21,8 @@ async function getJson(usUrl, metricUrl) {
     const weatherJson = await Promise.all(promises)
     console.log(weatherJson);
 
-    // const weatherData = getActualData(weatherJson, unitGroup);
-    // console.log(weatherData);
+    const weatherData = getActualData(weatherJson);
+    console.log(weatherData);
   } catch (err) {
     throw new Error(err);
   }
@@ -39,21 +39,41 @@ function checkResponseError(response){
 
 
 function getActualData(json) {
-  const tempUnit = unit === "us" ? "°F" : "°C";
-  const windUnit = unit === "us" ? "mph" : "km/h";
-  const windDeg = json.currentConditions.winddir;
+  const usData = json[0];
+  const metricData = json[1];
+
+  const usTempUnit = "°F";
+  const metricTempUnit = "°C";
+  const usWindUnit = "mph";
+  const metricWindUnit = "km/h";
+
+  const windDeg = usData.currentConditions.winddir;
   const windDir = getWindDir(windDeg);
 
   let weatherData = {
-    address: json.resolvedAddress,
-    conditions: json.currentConditions.conditions,
-    actualTemp: json.currentConditions.temp + " " + tempUnit,
-    feelsLike: json.currentConditions.feelslike + " " + tempUnit,
-    humidity: json.currentConditions.humidity + " %",
-    precipitationChance : json.currentConditions.precipprob + " %",
-    windDeg,
-    windDir,
-    windSpeed: json.currentConditions.windspeed + " " + windUnit,
+    us :{
+      address: usData.resolvedAddress,
+      conditions: usData.currentConditions.conditions,
+      actualTemp: usData.currentConditions.temp + " " + usTempUnit,
+      feelsLike: usData.currentConditions.feelslike + " " + usTempUnit,
+      humidity: usData.currentConditions.humidity + " %",
+      precipitationChance : usData.currentConditions.precipprob + " %",
+      windDeg,
+      windDir,
+      windSpeed: usData.currentConditions.windspeed + " " + usWindUnit,
+    },
+
+    metric: {
+      address: metricData.resolvedAddress,
+      conditions: metricData.currentConditions.conditions,
+      actualTemp: metricData.currentConditions.temp + " " + metricTempUnit,
+      feelsLike: metricData.currentConditions.feelslike + " " + metricTempUnit,
+      humidity: metricData.currentConditions.humidity + " %",
+      precipitationChance : metricData.currentConditions.precipprob + " %",
+      windDeg,
+      windDir,
+      windSpeed: metricData.currentConditions.windspeed + " " + metricWindUnit,      
+    }
   };
 
   return weatherData;
