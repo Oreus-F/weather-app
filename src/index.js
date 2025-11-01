@@ -35,6 +35,7 @@ function getActualData(json, unit) {
     conditions: json.currentConditions.conditions,
     actualTemp: json.currentConditions.temp + " " + tempUnit,
     feelsLike: json.currentConditions.feelslike + " " + tempUnit,
+    humidity: json.currentConditions.humidity + " %",
     windDeg,
     windDir,
     windSpeed: json.currentConditions.windspeed + " " + windUnit,
