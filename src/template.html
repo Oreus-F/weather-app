@@ -6,17 +6,58 @@
     <title>weather-app</title>
   </head>
   <body>
-    <div>
-      <form action="#" novalidate>
-        <div>
-          <input type="search" placeholder="search for a city, region, location..." id="searchBar" name="location" required>
+    <div class="container">
+      <header class="header">
+        <form action="#" novalidate>
+          <div>
+            <input type="search" placeholder="search for a city, region, location..." id="searchBar" name="location" required>
+          </div>
+          <div>
+            <button id="submitLocation">
+              icon here
+            </button>
+          </div>
+        </form>
+      </header>
+      
+      <div class="content">
+        <div class="dataContent">
+          <div class="mainBox">
+            <div class="iconBox"></div>
+            <div class="locationBox"></div>
+          </div>
+          <div class="dataBox">
+            <div class="tempBox">
+              <div>
+                <button id="usUnitButton">
+                  <p>°F</p>
+                </button>
+                <button id="metricUnitButton">
+                  <p>°C</p>
+                </button>
+              </div>
+              <div>
+                <p id="actualTempBox"></p>
+                <p id="actuelFeelLikeBox"></p>
+              </div>
+            </div>
+            <div class="windBox">
+              <div class="windArrowBox"></div>
+              <div class="windDataBox">
+                <p id="windDirBox"></p>
+                <p id="windSpeedBox"></p>
+              </div>
+            </div>
+            <div class="waterBox">
+              <p id="humidityBox"></p>
+              <p id="precipitationBox"></p>
+            </div>
+          </div>
         </div>
-        <div>
-          <button id="submitLocation">
-            icon here
-          </button>
-        </div>
-      </form>
+        <div class="empty"></div>
+        <div class="forecastData"></div>
+      </div>
+      <footer class="footer"></footer>
     </div>
   </body>
 </html>
