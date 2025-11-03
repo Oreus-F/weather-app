@@ -36,6 +36,7 @@ async function getJson(usUrl, metricUrl) {
 
     const weatherJson = await Promise.all(promises);
 
+    console.log(weatherJson)
     const weatherData = getActualData(weatherJson);
 
     displayData(weatherData);
@@ -68,6 +69,7 @@ function getActualData(json) {
     us: {
       address: usData.resolvedAddress,
       conditions: usData.currentConditions.conditions,
+      icon: usData.currentConditions.icon,
       actualTemp: usData.currentConditions.temp + " " + usTempUnit,
       feelsLike: usData.currentConditions.feelslike + " " + usTempUnit,
       humidity: usData.currentConditions.humidity + " %",
@@ -80,6 +82,7 @@ function getActualData(json) {
     metric: {
       address: metricData.resolvedAddress,
       conditions: metricData.currentConditions.conditions,
+      icon: metricData.currentConditions.icon,
       actualTemp: metricData.currentConditions.temp + " " + metricTempUnit,
       feelsLike: metricData.currentConditions.feelslike + " " + metricTempUnit,
       humidity: metricData.currentConditions.humidity + " %",
@@ -194,7 +197,6 @@ function displayData(json) {
   humidityBox.textContent = data.humidity;
   precipitationBox.textContent = data.precipitationChance;
 
-  console.log(data);
 }
 
 function getUnitGroup() {
