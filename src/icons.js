@@ -1,8 +1,8 @@
-import * as sets from "../asset/WeatherIcons/SVG";
+import * as icons from "../asset/WeatherIcons/SVG/3rd Set - Color/";
 
 function getIcon(iconString) {
-  for (const set in sets) {
-    console.log(set);
+  for (const icon in icons) {
+    console.log(icon);
   }
 }
 

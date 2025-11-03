@@ -1,4 +1,7 @@
 import "./style.css";
+import { getIcon } from "./icons";
+
+getIcon('oui')
 
 const submitLocationButton = document.querySelector("#submitLocation");
 const usUnitRadio = document.querySelector("#usUnit");
