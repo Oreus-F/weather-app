@@ -1,24 +1,21 @@
 import "./style.css";
 
-const submitLocationButton = document.querySelector('#submitLocation');
-const usUnitRadio = document.querySelector('#usUnit');
-const metricUnitRadio = document.querySelector('#metricUnit');
-
+const submitLocationButton = document.querySelector("#submitLocation");
+const usUnitRadio = document.querySelector("#usUnit");
+const metricUnitRadio = document.querySelector("#metricUnit");
 
 let weatherData;
 
-
-function getLocation(){
-  const searchBar = document.querySelector('#searchBar');
+function getLocation() {
+  const searchBar = document.querySelector("#searchBar");
   const value = searchBar.value;
-  const usUnit = document.querySelector('#usUnit');
-  const metricUnit = document.querySelector('#metricUnit');
-  return value
+  const usUnit = document.querySelector("#usUnit");
+  const metricUnit = document.querySelector("#metricUnit");
+  return value;
 }
 
-
 function getURL(location) {
-  const metric = 'metric';
+  const metric = "metric";
 
   const metricUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=QZQJWVZEFRGJ3V7D55UPCMH24&unitGroup=${metric}`;
   const usUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=QZQJWVZEFRGJ3V7D55UPCMH24`;
@@ -29,30 +26,31 @@ function getURL(location) {
 async function getJson(usUrl, metricUrl) {
   try {
     const promises = [
-      fetch(usUrl).then(function(response){return checkResponseError(response)}),
-      fetch(metricUrl).then(function(response){return checkResponseError(response)}),
-    ]
+      fetch(usUrl).then(function (response) {
+        return checkResponseError(response);
+      }),
+      fetch(metricUrl).then(function (response) {
+        return checkResponseError(response);
+      }),
+    ];
 
-
-    const weatherJson = await Promise.all(promises)
+    const weatherJson = await Promise.all(promises);
 
     const weatherData = getActualData(weatherJson);
 
-    displayData(weatherData)
+    displayData(weatherData);
   } catch (err) {
     throw new Error(err);
   }
 }
 
-
-function checkResponseError(response){
+function checkResponseError(response) {
   if (!response.ok) {
     throw new Error(response.status);
   }
 
-  return response.json()
+  return response.json();
 }
-
 
 function getActualData(json) {
   const usData = json[0];
@@ -67,13 +65,13 @@ function getActualData(json) {
   const windDir = getWindDir(windDeg);
 
   weatherData = {
-    us :{
+    us: {
       address: usData.resolvedAddress,
       conditions: usData.currentConditions.conditions,
       actualTemp: usData.currentConditions.temp + " " + usTempUnit,
       feelsLike: usData.currentConditions.feelslike + " " + usTempUnit,
       humidity: usData.currentConditions.humidity + " %",
-      precipitationChance : usData.currentConditions.precipprob + " %",
+      precipitationChance: usData.currentConditions.precipprob + " %",
       windDeg,
       windDir,
       windSpeed: usData.currentConditions.windspeed + " " + usWindUnit,
@@ -85,16 +83,15 @@ function getActualData(json) {
       actualTemp: metricData.currentConditions.temp + " " + metricTempUnit,
       feelsLike: metricData.currentConditions.feelslike + " " + metricTempUnit,
       humidity: metricData.currentConditions.humidity + " %",
-      precipitationChance : metricData.currentConditions.precipprob + " %",
+      precipitationChance: metricData.currentConditions.precipprob + " %",
       windDeg,
       windDir,
-      windSpeed: metricData.currentConditions.windspeed + " " + metricWindUnit,      
-    }
+      windSpeed: metricData.currentConditions.windspeed + " " + metricWindUnit,
+    },
   };
 
   return weatherData;
 }
-
 
 function getWindDir(deg) {
   const directions = {
@@ -149,43 +146,43 @@ function getWindDir(deg) {
   return result;
 }
 
-
-function checkSearchValid(){
-  const searchBar = document.querySelector('#searchBar');
+function checkSearchValid() {
+  const searchBar = document.querySelector("#searchBar");
   const validityState = searchBar.validity;
 
-  if(validityState.valueMissing){
-    searchBar.reportValidity()
-    searchBar.setCustomValidity("You must write a location here !")
+  if (validityState.valueMissing) {
+    searchBar.reportValidity();
+    searchBar.setCustomValidity("You must write a location here !");
   } else {
     const location = getLocation();
-    getURL(location)
+    getURL(location);
   }
-
 }
 
-
-function displayData(json){
+function displayData(json) {
   const unitGroup = getUnitGroup();
   const data = json[unitGroup];
-  let address = (data.address).split('')
-  .map((letter, index) => {
-    if(index ===0){
-      return letter.toUpperCase()
-    } else {return letter}
-  }).join('')
+  let address = data.address
+    .split("")
+    .map((letter, index) => {
+      if (index === 0) {
+        return letter.toUpperCase();
+      } else {
+        return letter;
+      }
+    })
+    .join("");
 
   // query icon Here
-  const addressBox = document.querySelector('#addressBox');
-  const conditionsBox = document.querySelector('#conditionsBox');
-  const actualTempBox = document.querySelector('#actualTempBox');
-  const actualFeelLikeBox = document.querySelector('#actualFeelLikeBox');
+  const addressBox = document.querySelector("#addressBox");
+  const conditionsBox = document.querySelector("#conditionsBox");
+  const actualTempBox = document.querySelector("#actualTempBox");
+  const actualFeelLikeBox = document.querySelector("#actualFeelLikeBox");
   // query arrow Here
-  const windDirBox = document.querySelector('#windDirBox');
-  const windSpeedBox = document.querySelector('#windSpeedBox');
-  const humidityBox = document.querySelector('#humidityBox');
-  const precipitationBox = document.querySelector('#precipitationBox');  
-
+  const windDirBox = document.querySelector("#windDirBox");
+  const windSpeedBox = document.querySelector("#windSpeedBox");
+  const humidityBox = document.querySelector("#humidityBox");
+  const precipitationBox = document.querySelector("#precipitationBox");
 
   // apply icon here
   addressBox.textContent = address;
@@ -195,31 +192,31 @@ function displayData(json){
   windDirBox.textContent = data.windDir;
   windSpeedBox.textContent = data.windSpeed;
   humidityBox.textContent = data.humidity;
-  precipitationBox.textContent = data.precipitationChance
+  precipitationBox.textContent = data.precipitationChance;
 
-  console.log(data)
+  console.log(data);
 }
 
+function getUnitGroup() {
+  const usUnit = document.querySelector("#usUnit");
+  const metricUnit = document.querySelector("#metricUnit");
 
-function getUnitGroup(){
-  const usUnit = document.querySelector('#usUnit');
-  const metricUnit = document.querySelector('#metricUnit');
+  let result = usUnit.checked ? usUnit.value : metricUnit.value;
 
-  let result = usUnit.checked ? usUnit.value : metricUnit.value
-
-  return result
+  return result;
 }
 
-
-submitLocationButton.addEventListener('click', (event)=>{
+submitLocationButton.addEventListener("click", (event) => {
   event.preventDefault();
 
-  checkSearchValid()
+  checkSearchValid();
 });
 
-
-usUnitRadio.addEventListener('change', ()=> {displayData(weatherData)});
-metricUnitRadio.addEventListener('change', ()=> {displayData(weatherData)})
-
+usUnitRadio.addEventListener("change", () => {
+  displayData(weatherData);
+});
+metricUnitRadio.addEventListener("change", () => {
+  displayData(weatherData);
+});
 
 getURL("paris");

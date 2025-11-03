@@ -5,93 +5,76 @@
   box-sizing: border-box;
 }
 
-
-.container{
+.container {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
 
-
-.header{
+.header {
   flex-basis: 80px;
 }
 
-
-.content{
+.content {
   flex: 1;
-
 
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 35%;
 }
 
-
-.footer{
+.footer {
   flex-basis: 80px;
 }
 
-
-.dataContent{
+.dataContent {
   border: 3px solid blue;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
-
 .dataContent div {
   border: 1px solid black;
 }
 
-
-.mainBox{
-  display:flex;
+.mainBox {
+  display: flex;
   flex-direction: column;
 }
 
-
-.iconBox{
+.iconBox {
   flex: 1;
 }
 
-
-.locationBox{
+.locationBox {
   flex-basis: 120px;
 }
 
-
-.dataBox{
+.dataBox {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
 }
 
-
-.windBox{
+.windBox {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-
-.windArrowBox{
+.windArrowBox {
   flex: 1;
 }
 
-
-.windDataBox{
+.windDataBox {
   flex-basis: 60px;
 }
 
-.empty{
-  
+.empty {
   border: 3px solid red;
 }
 
-
-.forecastData{
+.forecastData {
   grid-column: 1/3;
   border: 3px solid green;
-  
 }
