@@ -36,7 +36,7 @@ async function getJson(usUrl, metricUrl) {
 
     const weatherJson = await Promise.all(promises);
 
-    console.log(weatherJson)
+    console.log(weatherJson);
     const weatherData = getActualData(weatherJson);
 
     displayData(weatherData);
@@ -196,7 +196,6 @@ function displayData(json) {
   windSpeedBox.textContent = data.windSpeed;
   humidityBox.textContent = data.humidity;
   precipitationBox.textContent = data.precipitationChance;
-
 }
 
 function getUnitGroup() {
