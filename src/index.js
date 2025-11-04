@@ -160,7 +160,7 @@ function checkSearchValid() {
   }
 }
 
-function displayData(json) {
+async function displayData(json) {
   const unitGroup = getUnitGroup();
   const data = json[unitGroup];
   let address = data.address
@@ -174,7 +174,7 @@ function displayData(json) {
     })
     .join("");
 
-  // query icon Here
+  const iconBox = document.querySelector('#iconContent')
   const addressBox = document.querySelector("#addressBox");
   const conditionsBox = document.querySelector("#conditionsBox");
   const actualTempBox = document.querySelector("#actualTempBox");
@@ -185,7 +185,7 @@ function displayData(json) {
   const humidityBox = document.querySelector("#humidityBox");
   const precipitationBox = document.querySelector("#precipitationBox");
 
-  // apply icon here
+  iconBox.src = await getIcon(data.icon);
   addressBox.textContent = address;
   conditionsBox.textContent = data.conditions;
   actualTempBox.textContent = data.actualTemp;
@@ -206,7 +206,9 @@ function getUnitGroup() {
 }
 
 async function getIcon(iconString){
-  const response = import(``)
+  const module = await import(`../asset/icons/svg/${iconString}.svg`);
+  const result = await module.default;
+  return result
 }
 
 submitLocationButton.addEventListener("click", (event) => {
