@@ -1,7 +1,4 @@
 import "./style.css";
-import { getIcon } from "./icons";
-
-getIcon('oui')
 
 const submitLocationButton = document.querySelector("#submitLocation");
 const usUnitRadio = document.querySelector("#usUnit");
@@ -206,6 +203,10 @@ function getUnitGroup() {
   let result = usUnit.checked ? usUnit.value : metricUnit.value;
 
   return result;
+}
+
+async function getIcon(iconString){
+  const response = import(``)
 }
 
 submitLocationButton.addEventListener("click", (event) => {
