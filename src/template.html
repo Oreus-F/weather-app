@@ -26,57 +26,74 @@
 
       <div class="content">
         <div class="dataContent">
-          <div class="mainBox">
-            <div class="iconBox">
-              <img src="#" id="iconContent"> 
-            </div>
-            <div class="locationBox">
-              <h3 id="addressBox"></h3>
-              <p id="conditionsBox"></p>
-            </div>
+          <div class="iconBox">
+            <img src="#" id="iconContent" class="weatherIcon"> 
           </div>
+
           <div class="dataBox">
-            <div class="tempBox">
-              <div id="unitGroupBox">
-                <label for="usUnit">
-                  <p>°F</p>
-                  <input
-                    type="radio"
-                    name="unitGroup"
-                    id="usUnit"
-                    value="us"
-                    checked
-                  />
-                </label>
-                <label for="metricUnit">
-                  <p>°C</p>
-                  <input
-                    type="radio"
-                    name="unitGroup"
-                    id="metricUnit"
-                    value="metric"
-                  />
-                </label>
+            <div class="leftData">
+              <div class="tempBox">
+                <div class="tempDisplay">
+                  <div class="actualTempContainer">
+                    <p id="actualTempBox"></p>
+                  </div>
+                  <div id="unitGroupBox" class="unitGroupContainer">
+                    <label for="usUnit">
+                    <p>F</p>
+                    <input
+                      type="radio"
+                      name="unitGroup"
+                      id="usUnit"
+                      value="us"
+                      hidden
+                      checked
+                    />
+                  </label>
+                  <p>/</p>
+                  <label for="metricUnit">
+                    <p>C</p>
+                    <input
+                      type="radio"
+                      name="unitGroup"
+                      id="metricUnit"
+                      value="metric"
+                      hidden
+                    />
+                  </label>
+                  </div>
+                </div>
+                <div class="actualFeelsLikeContainer">
+                  <p id="actualFeelLikeBox"></p>
+                </div>
               </div>
-              <div>
-                <p id="actualTempBox"></p>
-                <p id="actualFeelLikeBox"></p>
+
+              <div class="otherData">
+                <div class="precipitationContainer">
+                  <p id="precipitationBox"></p>
+                </div>
+                <div class="humidityContainer">
+                  <p id="humidityBox"></p>
+                </div>
+                <div class="windContainer">
+                  <div>
+                    <p id="windDirBox"></p>
+                    <p id="windSpeedBox"></p>
+                  </div>
+                  <div class="windArrowContainer">
+                    <span src="#" id="arrowBox" class="windArrow"></span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="windBox">
-              <div class="windArrowBox"></div>
-              <div class="windDataBox">
-                <p id="windDirBox"></p>
-                <p id="windSpeedBox"></p>
+            
+            <div class="rightData">
+              <div class="locationBox">
+                <h3 id="addressBox"></h3>
+                <p id="conditionsBox"></p>
               </div>
-            </div>
-            <div class="waterBox">
-              <p id="humidityBox"></p>
-              <p id="precipitationBox"></p>
             </div>
           </div>
         </div>
-        <div class="empty"></div>
         <div class="forecastData"></div>
       </div>
       <footer class="footer"></footer>
