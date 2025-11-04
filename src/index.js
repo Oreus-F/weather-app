@@ -55,8 +55,8 @@ function getActualData(json) {
   const usData = json[0];
   const metricData = json[1];
 
-  const usTempUnit = "°F";
-  const metricTempUnit = "°C";
+  const usTempUnit = "°";
+  const metricTempUnit = "°";
   const usWindUnit = "mph";
   const metricWindUnit = "km/h";
 
@@ -68,8 +68,8 @@ function getActualData(json) {
       address: usData.resolvedAddress,
       conditions: usData.currentConditions.conditions,
       icon: usData.currentConditions.icon,
-      actualTemp: usData.currentConditions.temp + " " + usTempUnit,
-      feelsLike: usData.currentConditions.feelslike + " " + usTempUnit,
+      actualTemp: usData.currentConditions.temp + " °",
+      feelsLike: usData.currentConditions.feelslike + " °",
       humidity: usData.currentConditions.humidity + " %",
       precipitationChance: usData.currentConditions.precipprob + " %",
       windDeg,
@@ -81,8 +81,8 @@ function getActualData(json) {
       address: metricData.resolvedAddress,
       conditions: metricData.currentConditions.conditions,
       icon: metricData.currentConditions.icon,
-      actualTemp: metricData.currentConditions.temp + " " + metricTempUnit,
-      feelsLike: metricData.currentConditions.feelslike + " " + metricTempUnit,
+      actualTemp: metricData.currentConditions.temp + " °",
+      feelsLike: metricData.currentConditions.feelslike + " °",
       humidity: metricData.currentConditions.humidity + " %",
       precipitationChance: metricData.currentConditions.precipprob + " %",
       windDeg,
@@ -179,21 +179,23 @@ async function displayData(json) {
   const conditionsBox = document.querySelector("#conditionsBox");
   const actualTempBox = document.querySelector("#actualTempBox");
   const actualFeelLikeBox = document.querySelector("#actualFeelLikeBox");
-  // query arrow Here
+  const arrowBox = document.querySelector('#arrowBox');
   const windDirBox = document.querySelector("#windDirBox");
   const windSpeedBox = document.querySelector("#windSpeedBox");
   const humidityBox = document.querySelector("#humidityBox");
   const precipitationBox = document.querySelector("#precipitationBox");
 
-  iconBox.src = await getIcon(data.icon);
+  iconBox.src = await getWeatherIcon(data.icon);
   addressBox.textContent = address;
   conditionsBox.textContent = data.conditions;
-  actualTempBox.textContent = data.actualTemp;
-  actualFeelLikeBox.textContent = data.feelsLike;
-  windDirBox.textContent = data.windDir;
-  windSpeedBox.textContent = data.windSpeed;
-  humidityBox.textContent = data.humidity;
-  precipitationBox.textContent = data.precipitationChance;
+  actualTempBox.textContent = `${data.actualTemp}`;
+  actualFeelLikeBox.textContent = `${data.feelsLike}`;
+  // arrowBox.src = await getWindIcon();
+  arrowBox.setAttribute('style', `transform: rotate(${data.windDeg}deg)`)
+  windDirBox.textContent = `Direction : ${data.windDir}`;
+  windSpeedBox.textContent = `Speed: ${data.windSpeed}`;
+  humidityBox.textContent = `Humidity: ${data.humidity}`;
+  precipitationBox.textContent = `Precipitation: ${data.precipitationChance}`;
 }
 
 function getUnitGroup() {
@@ -205,8 +207,15 @@ function getUnitGroup() {
   return result;
 }
 
-async function getIcon(iconString){
+async function getWeatherIcon(iconString){
   const module = await import(`../asset/icons/svg/${iconString}.svg`);
+  const result = await module.default;
+  return result
+}
+
+
+async function getWindIcon(){
+  const module = await import("../asset/icons/arrow-big-up-lines.svg");
   const result = await module.default;
   return result
 }
