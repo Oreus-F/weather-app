@@ -12,8 +12,6 @@ let weatherData;
 function getLocation() {
   const searchBar = document.querySelector("#searchBar");
   const value = searchBar.value;
-  const usUnit = document.querySelector("#usUnit");
-  const metricUnit = document.querySelector("#metricUnit");
   return value;
 }
 
