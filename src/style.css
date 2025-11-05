@@ -4,6 +4,8 @@
   list-style: none;
   box-sizing: border-box;
   color: #f3f3f3;
+  text-decoration: none;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .container {
@@ -11,19 +13,71 @@
   max-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background-color: #181e42;
+  background-color: #171718e7;
 }
 
 
 .header{
-  flex-basis: 150px;
+  flex-basis: 70px;
+  padding: 1rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.searchContainer{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+
+.searchContainer form{
+  flex: 1;
+  align-self: center;
+  justify-self: center;
+}
+
+.searchContainer input{
+  color: black;
+  height: 30px;
+  width: 50%;
+  padding: 4px 24px;
+  border: none;
+  border-radius: 24px;
+  outline: none;
+}
+
+
+.searchContainer button{
+  width: 20px;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  background-image: url('../asset/icons/search.svg');
+  background-repeat: no-repeat;
+  background-size: 21px 21px;
+  background-position: center;
+}
+
+
+
+.links{
+  display: flex;
+  gap: 24px;
 }
 
 
 .footer{
-  flex-basis: 100px;
+  flex-basis: 50px;
 }
 
+
+.header, .footer{
+  background-color: #45454770;
+}
 
 .content{
   display: flex;
@@ -35,7 +89,17 @@
 .dataContent{
   flex: 1;
   display: flex;
+  justify-content: center;
   align-items: center;
+}
+
+
+.dataContainer{
+  gap: 1rem;
+  display: flex;
+  align-items: center;
+  min-width: 75%;
+
 }
 
 
@@ -46,10 +110,11 @@
 
 
 .iconBox{
+  padding-top: 1rem;
   flex-basis: 30%;
   display: flex;
   justify-content: center;
-  align-content: center;
+  align-self: baseline;
 }
 
 
@@ -108,13 +173,22 @@
 
 .otherData{
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  gap: 12px;
 }
 
 .otherData  p{
-  font-size: .8rem;
+  font-size: .9rem;
   color: #ffffff9f;
+}
+
+
+.smallData{
+  flex-basis: 150px;
+}
+
+
+.windArrowContainer{
+  margin-top: -10px;
 }
 
 
@@ -124,7 +198,30 @@
   background-color: #fff;
   mask-image: url(../asset/icons/arrow-big-up-lines.svg);
   mask-repeat: no-repeat;
-  mask-position: center;
-  width: 50px;
-  height: 50px;
+  mask-position: top;
+  mask-size: 80px;
+  width: 80px;
+  height: 80px;
+}
+
+
+.locationBox > h3{
+  font-size: 2.5rem;
+}
+
+
+.locationBox > p {
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+
+label:has(input:not(:checked)){
+  opacity: 0.6;
+}
+
+
+label:has(input[type='radio']){
+  user-select: none;
+  cursor: pointer;
 }
