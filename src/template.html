@@ -8,8 +8,11 @@
   <body>
     <div class="container">
       <header class="header">
-        <form action="#" novalidate>
-          <div>
+        <div>
+          <h1>Odin Weather</h1>
+        </div>
+        <div class="searchContainer">
+          <form action="#" novalidate>
             <input
               type="search"
               placeholder="search for a city, region, location..."
@@ -17,79 +20,90 @@
               name="location"
               required
             />
-          </div>
-          <div>
-            <button id="submitLocation">icon here</button>
-          </div>
-        </form>
+            <button id="submitLocation"></button>
+          </form>
+        </div>
+        <div class="links">
+          <a href="https://github.com/Oreus-F/weather-app" rel="noopener noreferrer" target="_blank">
+            Repository
+          </a>
+          <a href="https://github.com/Oreus-F" rel="noopener noreferrer" target="_blank">
+            Github
+          </a>
+          <a href="https://www.theodinproject.com/about" rel="noopener noreferrer" target="_blank">
+            Odin Project
+          </a>
+        </div>
       </header>
 
       <div class="content">
         <div class="dataContent">
-          <div class="iconBox">
-            <img src="#" id="iconContent" class="weatherIcon"> 
-          </div>
-
-          <div class="dataBox">
-            <div class="leftData">
-              <div class="tempBox">
-                <div class="tempDisplay">
-                  <div class="actualTempContainer">
-                    <p id="actualTempBox"></p>
+          <div class="dataContainer">
+            <div class="iconBox">
+              <img src="#" id="iconContent" class="weatherIcon">
+            </div>
+            <div class="dataBox">
+              <div class="leftData">
+                <div class="tempBox">
+                  <div class="tempDisplay">
+                    <div class="actualTempContainer">
+                      <p id="actualTempBox"></p>
+                    </div>
+                    <div id="unitGroupBox" class="unitGroupContainer">
+                      <label for="usUnit">
+                      <p>F</p>
+                      <input
+                        type="radio"
+                        name="unitGroup"
+                        id="usUnit"
+                        value="us"
+                        hidden
+                        checked
+                      />
+                    </label>
+                    <p>|</p>
+                    <label for="metricUnit">
+                      <p>C</p>
+                      <input
+                        type="radio"
+                        name="unitGroup"
+                        id="metricUnit"
+                        value="metric"
+                        hidden
+                      />
+                    </label>
+                    </div>
                   </div>
-                  <div id="unitGroupBox" class="unitGroupContainer">
-                    <label for="usUnit">
-                    <p>F</p>
-                    <input
-                      type="radio"
-                      name="unitGroup"
-                      id="usUnit"
-                      value="us"
-                      hidden
-                      checked
-                    />
-                  </label>
-                  <p>/</p>
-                  <label for="metricUnit">
-                    <p>C</p>
-                    <input
-                      type="radio"
-                      name="unitGroup"
-                      id="metricUnit"
-                      value="metric"
-                      hidden
-                    />
-                  </label>
+                  <div class="actualFeelsLikeContainer">
+                    <p id="actualFeelLikeBox"></p>
                   </div>
                 </div>
-                <div class="actualFeelsLikeContainer">
-                  <p id="actualFeelLikeBox"></p>
-                </div>
-              </div>
-
-              <div class="otherData">
-                <div class="precipitationContainer">
-                  <p id="precipitationBox"></p>
-                </div>
-                <div class="humidityContainer">
-                  <p id="humidityBox"></p>
-                </div>
-                <div class="windContainer">
-                  <div>
-                    <p id="windDirBox"></p>
-                    <p id="windSpeedBox"></p>
+                <div class="otherData">
+                  <div class="smallData">
+                    <div class="precipitationContainer">
+                      <p id="precipitationBox"></p>
+                    </div>
+                    <div class="humidityContainer">
+                      <p id="humidityBox"></p>
+                    </div>
+                    <div class="windDirContainer">
+                      <p id="windDirBox"></p>
+                    </div>
+                    <div class="windDirContainer">
+                      <p id="windSpeedBox"></p>
+                    </div>
                   </div>
                   <div class="windArrowContainer">
-                    <span src="#" id="arrowBox" class="windArrow"></span>
+                    <span id="arrowBox" class="windArrow"></span>
                   </div>
                 </div>
               </div>
-            </div>
             
-            <div class="rightData">
-              <div class="locationBox">
-                <h3 id="addressBox"></h3>
-                <p id="conditionsBox"></p>
+              <div class="rightData">
+                <div class="locationBox">
+                  <h3 id="addressBox"></h3>
+                  <p id="conditionsBox"></p>
+                </div>
               </div>
             </div>
           </div>
