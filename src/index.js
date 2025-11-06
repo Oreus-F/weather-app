@@ -3,6 +3,7 @@ import "./style.css";
 const submitLocationButton = document.querySelector("#submitLocation");
 const usUnitRadio = document.querySelector("#usUnit");
 const metricUnitRadio = document.querySelector("#metricUnit");
+const toggleTheme = document.querySelector('#toggleTheme');
 
 let weatherData;
 
@@ -232,5 +233,12 @@ usUnitRadio.addEventListener("change", () => {
 metricUnitRadio.addEventListener("change", () => {
   displayData(weatherData);
 });
+toggleTheme.addEventListener('click', ()=>{
+  const root = document.documentElement;
+  const actualTheme = root.getAttribute('class');
+  const newTheme = actualTheme === 'dark' ? 'light' : 'dark';
+
+  root.setAttribute('class', newTheme)
+})
 
 getURL("paris");
