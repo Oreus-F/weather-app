@@ -147,7 +147,6 @@ input[type='search']::-webkit-search-cancel-button{
 
 .forecastData{
   flex-basis: 250px;
-  border: green 2px solid;
 }
 
 
