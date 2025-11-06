@@ -1,11 +1,11 @@
 import "./style.css";
+import {format} from "date-fns"
 
 const submitLocationButton = document.querySelector("#submitLocation");
 const usUnitRadio = document.querySelector("#usUnit");
 const metricUnitRadio = document.querySelector("#metricUnit");
 const toggleTheme = document.querySelector('#toggleTheme');
 
-let weatherData;
 
 function getLocation() {
   const searchBar = document.querySelector("#searchBar");
@@ -36,9 +36,10 @@ async function getJson(usUrl, metricUrl) {
     const weatherJson = await Promise.all(promises);
 
     console.log(weatherJson);
-    const weatherData = getActualData(weatherJson);
+    const allWeatherData = getAllData(weatherJson);
+    console.log(allWeatherData)
 
-    displayData(weatherData);
+    // displayData(weatherData);
   } catch (err) {
     throw new Error(err);
   }
@@ -52,19 +53,122 @@ function checkResponseError(response) {
   return response.json();
 }
 
+
+function getAllData(json){
+  const usData = json[0];
+  const metricData = json[1];
+
+  const usWindUnit = "mph";
+  const metricWindUnit = "km/h";
+
+  let weatherData = [];
+
+  for(let x =0; x < 7; x++){
+    const usDay = usData.days[x];
+    const metricDay = metricData.days[x];
+
+    let dayData = {};
+
+    if(x===0){
+
+      const date = format(new Date(), 'EEEE dd MMMM');
+      const thumbnailDate = format(new Date(), 'E.')    
+      const windDeg = usData.currentConditions.winddir;
+      const windDir = getWindDir(windDeg);
+
+      dayData = {
+        us: {
+          address: usData.resolvedAddress,
+          conditions: usData.currentConditions.conditions,
+          date,
+          thumbnailDate,
+          icon: usData.currentConditions.icon,
+          actualTemp: usData.currentConditions.temp + " °",
+          feelsLike: usData.currentConditions.feelslike + " °",
+          humidity: usData.currentConditions.humidity + " %",
+          precipitationChance: usData.currentConditions.precipprob + " %",
+          windDeg,
+          windDir,
+          windSpeed: usData.currentConditions.windspeed + " " + usWindUnit,
+        },
+
+        metric: {
+          address: metricData.resolvedAddress,
+          conditions: metricData.currentConditions.conditions,
+          date,
+          thumbnailDate,
+          icon: metricData.currentConditions.icon,
+          actualTemp: metricData.currentConditions.temp + " °",
+          feelsLike: metricData.currentConditions.feelslike + " °",
+          humidity: metricData.currentConditions.humidity + " %",
+          precipitationChance: metricData.currentConditions.precipprob + " %",
+          windDeg,
+          windDir,
+          windSpeed: metricData.currentConditions.windspeed + " " + metricWindUnit,
+        },
+      };
+
+    } else {
+      const date = format(new Date(usDay.datetime), 'EEEE dd MMMM');
+      const thumbnailDate = format(new Date(usDay.datetime), 'E.')
+      const windDeg = usDay.winddir;
+      const windDir = getWindDir(windDeg);
+
+      dayData = {
+        us: {
+          address: usData.resolvedAddress,
+          conditions: usDay.conditions,
+          date,
+          thumbnailDate,
+          icon: usDay.icon,
+          actualTemp: usDay.temp + " °",
+          feelsLike: usDay.feelslike + " °",
+          humidity: usDay.humidity + " %",
+          precipitationChance: usDay.precipprob + " %",
+          windDeg,
+          windDir,
+          windSpeed: usDay.windspeed + " " + usWindUnit,
+        },
+
+        metric: {
+          address: metricData.resolvedAddress,
+          conditions: metricDay.conditions,
+          date,
+          thumbnailDate,
+          icon: metricDay.icon,
+          actualTemp: metricDay.temp + " °",
+          feelsLike: metricDay.feelslike + " °",
+          humidity: metricDay.humidity + " %",
+          precipitationChance: metricDay.precipprob + " %",
+          windDeg,
+          windDir,
+          windSpeed: metricDay.windspeed + " " + metricWindUnit,
+        }, 
+      }
+
+
+    }
+
+    weatherData.push(dayData)
+  }
+
+
+  return weatherData
+}
+
+
 function getActualData(json) {
   const usData = json[0];
   const metricData = json[1];
 
-  const usTempUnit = "°";
-  const metricTempUnit = "°";
   const usWindUnit = "mph";
   const metricWindUnit = "km/h";
+
 
   const windDeg = usData.currentConditions.winddir;
   const windDir = getWindDir(windDeg);
 
-  weatherData = {
+  const weatherData = {
     us: {
       address: usData.resolvedAddress,
       conditions: usData.currentConditions.conditions,
@@ -91,6 +195,8 @@ function getActualData(json) {
       windSpeed: metricData.currentConditions.windspeed + " " + metricWindUnit,
     },
   };
+
+  console.log(test)
 
   return weatherData;
 }
@@ -165,18 +271,20 @@ async function displayData(json) {
   const unitGroup = getUnitGroup();
   const data = json[unitGroup];
   let address = data.address
-    .split("")
-    .map((letter, index) => {
+  .split("")
+  .map((letter, index) => {
       if (index === 0) {
         return letter.toUpperCase();
       } else {
         return letter;
       }
-    })
-    .join("");
+  })
+  .join("");
 
-  const iconBox = document.querySelector('#iconContent')
+  const textBeforeAdress = document.querySelector('#textLocation');
   const addressBox = document.querySelector("#addressBox");
+  const iconBox = document.querySelector('#iconContent');
+  const dateBox = document.querySelector('#dateBox');
   const conditionsBox = document.querySelector("#conditionsBox");
   const actualTempBox = document.querySelector("#actualTempBox");
   const actualFeelLikeBox = document.querySelector("#actualFeelLikeBox");
@@ -186,12 +294,13 @@ async function displayData(json) {
   const humidityBox = document.querySelector("#humidityBox");
   const precipitationBox = document.querySelector("#precipitationBox");
 
-  iconBox.src = await getWeatherIcon(data.icon);
+  textBeforeAdress.textContent = 'Result for:';
   addressBox.textContent = address;
+  iconBox.src = await getWeatherIcon(data.icon);
+  dateBox.textContent = data.date;
   conditionsBox.textContent = data.conditions;
   actualTempBox.textContent = `${data.actualTemp}`;
   actualFeelLikeBox.textContent = `${data.feelsLike}`;
-  // arrowBox.src = await getWindIcon();
   arrowBox.setAttribute('style', `transform: rotate(${data.windDeg}deg)`)
   windDirBox.textContent = `Direction : ${data.windDir}`;
   windSpeedBox.textContent = `Speed: ${data.windSpeed}`;
@@ -215,12 +324,6 @@ async function getWeatherIcon(iconString){
 }
 
 
-async function getWindIcon(){
-  const module = await import("../asset/icons/arrow-big-up-lines.svg");
-  const result = await module.default;
-  return result
-}
-
 submitLocationButton.addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -228,10 +331,10 @@ submitLocationButton.addEventListener("click", (event) => {
 });
 
 usUnitRadio.addEventListener("change", () => {
-  displayData(weatherData);
+  // displayData(weatherData);
 });
 metricUnitRadio.addEventListener("change", () => {
-  displayData(weatherData);
+  // displayData(weatherData);
 });
 toggleTheme.addEventListener('click', ()=>{
   const root = document.documentElement;
