@@ -157,51 +157,6 @@ function getAllData(json){
   return weatherData
 }
 
-
-function getActualData(json) {
-  const usData = json[0];
-  const metricData = json[1];
-
-  const usWindUnit = "mph";
-  const metricWindUnit = "km/h";
-
-
-  const windDeg = usData.currentConditions.winddir;
-  const windDir = getWindDir(windDeg);
-
-  const weatherData = {
-    us: {
-      address: usData.resolvedAddress,
-      conditions: usData.currentConditions.conditions,
-      icon: usData.currentConditions.icon,
-      actualTemp: usData.currentConditions.temp + " °",
-      feelsLike: usData.currentConditions.feelslike + " °",
-      humidity: usData.currentConditions.humidity + " %",
-      precipitationChance: usData.currentConditions.precipprob + " %",
-      windDeg,
-      windDir,
-      windSpeed: usData.currentConditions.windspeed + " " + usWindUnit,
-    },
-
-    metric: {
-      address: metricData.resolvedAddress,
-      conditions: metricData.currentConditions.conditions,
-      icon: metricData.currentConditions.icon,
-      actualTemp: metricData.currentConditions.temp + " °",
-      feelsLike: metricData.currentConditions.feelslike + " °",
-      humidity: metricData.currentConditions.humidity + " %",
-      precipitationChance: metricData.currentConditions.precipprob + " %",
-      windDeg,
-      windDir,
-      windSpeed: metricData.currentConditions.windspeed + " " + metricWindUnit,
-    },
-  };
-
-  console.log(test)
-
-  return weatherData;
-}
-
 function getWindDir(deg) {
   const directions = {
     N: {
