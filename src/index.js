@@ -1,11 +1,11 @@
 import "./style.css";
-import {format} from "date-fns"
+import { format } from "date-fns";
 
 const submitLocationButton = document.querySelector("#submitLocation");
 const usUnitRadio = document.querySelector("#usUnit");
 const metricUnitRadio = document.querySelector("#metricUnit");
-const toggleTheme = document.querySelector('#toggleTheme');
-const thumbnails = document.querySelectorAll('.thumbnail')
+const toggleTheme = document.querySelector("#toggleTheme");
+const thumbnails = document.querySelectorAll(".thumbnail");
 
 let weatherData = [];
 
@@ -40,8 +40,7 @@ async function getJson(usUrl, metricUrl) {
     weatherData = [];
     getAllData(weatherJson);
 
-    displayForecast(weatherData)
-
+    displayForecast(weatherData);
   } catch (err) {
     throw new Error(err);
   }
@@ -55,24 +54,22 @@ function checkResponseError(response) {
   return response.json();
 }
 
-
-function getAllData(json){
+function getAllData(json) {
   const usData = json[0];
   const metricData = json[1];
 
   const usWindUnit = "mph";
   const metricWindUnit = "km/h";
 
-  for(let x =0; x < 7; x++){
+  for (let x = 0; x < 7; x++) {
     const usDay = usData.days[x];
     const metricDay = metricData.days[x];
 
     let dayData = {};
 
-    if(x===0){
-
-      const date = format(new Date(), 'EEEE dd MMMM');
-      const thumbnailDate = format(new Date(), 'E.')    
+    if (x === 0) {
+      const date = format(new Date(), "EEEE dd MMMM");
+      const thumbnailDate = format(new Date(), "E.");
       const windDeg = usData.currentConditions.winddir;
       const windDir = getWindDir(windDeg);
 
@@ -104,13 +101,13 @@ function getAllData(json){
           precipitationChance: metricData.currentConditions.precipprob + " %",
           windDeg,
           windDir,
-          windSpeed: metricData.currentConditions.windspeed + " " + metricWindUnit,
+          windSpeed:
+            metricData.currentConditions.windspeed + " " + metricWindUnit,
         },
       };
-
     } else {
-      const date = format(new Date(usDay.datetime), 'EEEE dd MMMM');
-      const thumbnailDate = format(new Date(usDay.datetime), 'E.')
+      const date = format(new Date(usDay.datetime), "EEEE dd MMMM");
+      const thumbnailDate = format(new Date(usDay.datetime), "E.");
       const windDeg = usDay.winddir;
       const windDir = getWindDir(windDeg);
 
@@ -143,17 +140,14 @@ function getAllData(json){
           windDeg,
           windDir,
           windSpeed: metricDay.windspeed + " " + metricWindUnit,
-        }, 
-      }
-
-
+        },
+      };
     }
 
-    weatherData.push(dayData)
+    weatherData.push(dayData);
   }
 
-
-  return weatherData
+  return weatherData;
 }
 
 function getWindDir(deg) {
@@ -223,72 +217,71 @@ function checkSearchValid() {
 }
 
 async function displayData(json) {
-  const forecastData = document.querySelector('.forecastData')
-  const thumbRadio = forecastData.querySelectorAll('input');
+  const forecastData = document.querySelector(".forecastData");
+  const thumbRadio = forecastData.querySelectorAll("input");
 
   let dataPosition;
 
-  for(let index=0 ; index < thumbRadio.length; index++){
-    if(thumbRadio[index].checked){
-      dataPosition = thumbnails[index].getAttribute('data-position');
-    };
-  };
+  for (let index = 0; index < thumbRadio.length; index++) {
+    if (thumbRadio[index].checked) {
+      dataPosition = thumbnails[index].getAttribute("data-position");
+    }
+  }
 
-  const dataDay = json[dataPosition]
+  const dataDay = json[dataPosition];
 
   const unitGroup = getUnitGroup();
   const data = dataDay[unitGroup];
   let address = data.address
-  .split("")
-  .map((letter, index) => {
+    .split("")
+    .map((letter, index) => {
       if (index === 0) {
         return letter.toUpperCase();
       } else {
         return letter;
       }
-  })
-  .join("");
+    })
+    .join("");
 
-  const textBeforeAdress = document.querySelector('#textLocation');
+  const textBeforeAdress = document.querySelector("#textLocation");
   const addressBox = document.querySelector("#addressBox");
-  const iconBox = document.querySelector('#iconContent');
-  const dateBox = document.querySelector('#dateBox');
+  const iconBox = document.querySelector("#iconContent");
+  const dateBox = document.querySelector("#dateBox");
   const conditionsBox = document.querySelector("#conditionsBox");
   const actualTempBox = document.querySelector("#actualTempBox");
   const actualFeelLikeBox = document.querySelector("#actualFeelLikeBox");
-  const arrowBox = document.querySelector('#arrowBox');
+  const arrowBox = document.querySelector("#arrowBox");
   const windDirBox = document.querySelector("#windDirBox");
   const windSpeedBox = document.querySelector("#windSpeedBox");
   const humidityBox = document.querySelector("#humidityBox");
   const precipitationBox = document.querySelector("#precipitationBox");
 
-  textBeforeAdress.textContent = 'Result for:';
+  textBeforeAdress.textContent = "Result for:";
   addressBox.textContent = address;
   iconBox.src = await getWeatherIcon(data.icon);
   dateBox.textContent = data.date;
   conditionsBox.textContent = data.conditions;
   actualTempBox.textContent = `${data.actualTemp}`;
   actualFeelLikeBox.textContent = `${data.feelsLike}`;
-  arrowBox.setAttribute('style', `transform: rotate(${data.windDeg}deg)`)
+  arrowBox.setAttribute("style", `transform: rotate(${data.windDeg}deg)`);
   windDirBox.textContent = `Direction : ${data.windDir}`;
   windSpeedBox.textContent = `Speed: ${data.windSpeed}`;
   humidityBox.textContent = `Humidity: ${data.humidity}`;
   precipitationBox.textContent = `Precipitation: ${data.precipitationChance}`;
 }
 
-
-async function displayForecast(json){
-  const thumbnails = document.querySelectorAll('.thumbnail');
+async function displayForecast(json) {
+  const thumbnails = document.querySelectorAll(".thumbnail");
   const unitGroup = getUnitGroup();
 
-  for(let x=0; x < thumbnails.length; x++){
+  for (let x = 0; x < thumbnails.length; x++) {
     const daysData = json[x];
     const data = daysData[unitGroup];
-    
+
     const thumbnail = thumbnails[x];
     const label = thumbnail.children[0];
     const child = label.children;
-    
+
     const thumbDate = child[1];
     const thumbIcon = child[2];
     const thumbTempBox = child[3];
@@ -297,16 +290,16 @@ async function displayForecast(json){
     thumbIcon.replaceChildren();
     thumbTempBox.replaceChildren();
 
-    const thumbDateContent = document.createElement('p');
+    const thumbDateContent = document.createElement("p");
     thumbDateContent.textContent = data.thumbnailDate;
 
-    const thumbIconContent = document.createElement('img');
+    const thumbIconContent = document.createElement("img");
     thumbIconContent.src = await getWeatherIcon(data.icon);
 
-    const forecastTemp = document.createElement('p');
-    forecastTemp.textContent = data.actualTemp
-    const forecastFeelsLike = document.createElement('p');
-    forecastFeelsLike.textContent = data.feelsLike
+    const forecastTemp = document.createElement("p");
+    forecastTemp.textContent = data.actualTemp;
+    const forecastFeelsLike = document.createElement("p");
+    forecastFeelsLike.textContent = data.feelsLike;
 
     thumbDate.appendChild(thumbDateContent);
     thumbIcon.appendChild(thumbIconContent);
@@ -314,10 +307,8 @@ async function displayForecast(json){
     thumbTempBox.appendChild(forecastFeelsLike);
   }
 
-
-  displayData(json)
+  displayData(json);
 }
-
 
 function getUnitGroup() {
   const usUnit = document.querySelector("#usUnit");
@@ -328,12 +319,11 @@ function getUnitGroup() {
   return result;
 }
 
-async function getWeatherIcon(iconString){
+async function getWeatherIcon(iconString) {
   const module = await import(`../asset/icons/svg/${iconString}.svg`);
   const result = await module.default;
-  return result
+  return result;
 }
-
 
 submitLocationButton.addEventListener("click", (event) => {
   event.preventDefault();
@@ -348,23 +338,22 @@ metricUnitRadio.addEventListener("change", () => {
   displayData(weatherData);
   displayForecast(weatherData);
 });
-toggleTheme.addEventListener('click', ()=>{
+toggleTheme.addEventListener("click", () => {
   const root = document.documentElement;
-  const actualTheme = root.getAttribute('class');
-  const newTheme = actualTheme === 'dark' ? 'light' : 'dark';
+  const actualTheme = root.getAttribute("class");
+  const newTheme = actualTheme === "dark" ? "light" : "dark";
 
-  root.setAttribute('class', newTheme)
+  root.setAttribute("class", newTheme);
 });
 
-
-for (let x=0; x < thumbnails.length; x++){
+for (let x = 0; x < thumbnails.length; x++) {
   const thumbnail = thumbnails[x];
   const label = thumbnail.children[0];
   const input = label[0];
 
-  label.addEventListener('change', ()=> {
-    displayData(weatherData)
-  })
+  label.addEventListener("change", () => {
+    displayData(weatherData);
+  });
 }
 
 getURL("paris");
