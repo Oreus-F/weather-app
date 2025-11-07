@@ -5,6 +5,7 @@ const submitLocationButton = document.querySelector("#submitLocation");
 const usUnitRadio = document.querySelector("#usUnit");
 const metricUnitRadio = document.querySelector("#metricUnit");
 const toggleTheme = document.querySelector('#toggleTheme');
+const thumbnails = document.querySelectorAll('.thumbnail')
 
 let weatherData = [];
 
@@ -36,13 +37,11 @@ async function getJson(usUrl, metricUrl) {
 
     const weatherJson = await Promise.all(promises);
 
-    console.log(weatherJson);
-    const allWeatherData = getAllData(weatherJson);
-    console.log(allWeatherData)
+    weatherData = [];
+    getAllData(weatherJson);
 
-    displayForecast(allWeatherData)
+    displayForecast(weatherData)
 
-    // displayData(weatherData);
   } catch (err) {
     throw new Error(err);
   }
@@ -84,8 +83,8 @@ function getAllData(json){
           date,
           thumbnailDate,
           icon: usData.currentConditions.icon,
-          actualTemp: usData.currentConditions.temp + " °",
-          feelsLike: usData.currentConditions.feelslike + " °",
+          actualTemp: usData.currentConditions.temp + "°",
+          feelsLike: usData.currentConditions.feelslike + "°",
           humidity: usData.currentConditions.humidity + " %",
           precipitationChance: usData.currentConditions.precipprob + " %",
           windDeg,
@@ -99,8 +98,8 @@ function getAllData(json){
           date,
           thumbnailDate,
           icon: metricData.currentConditions.icon,
-          actualTemp: metricData.currentConditions.temp + " °",
-          feelsLike: metricData.currentConditions.feelslike + " °",
+          actualTemp: metricData.currentConditions.temp + "°",
+          feelsLike: metricData.currentConditions.feelslike + "°",
           humidity: metricData.currentConditions.humidity + " %",
           precipitationChance: metricData.currentConditions.precipprob + " %",
           windDeg,
@@ -122,8 +121,8 @@ function getAllData(json){
           date,
           thumbnailDate,
           icon: usDay.icon,
-          actualTemp: usDay.temp + " °",
-          feelsLike: usDay.feelslike + " °",
+          actualTemp: usDay.temp + "°",
+          feelsLike: usDay.feelslike + "°",
           humidity: usDay.humidity + " %",
           precipitationChance: usDay.precipprob + " %",
           windDeg,
@@ -137,8 +136,8 @@ function getAllData(json){
           date,
           thumbnailDate,
           icon: metricDay.icon,
-          actualTemp: metricDay.temp + " °",
-          feelsLike: metricDay.feelslike + " °",
+          actualTemp: metricDay.temp + "°",
+          feelsLike: metricDay.feelslike + "°",
           humidity: metricDay.humidity + " %",
           precipitationChance: metricDay.precipprob + " %",
           windDeg,
@@ -226,7 +225,6 @@ function checkSearchValid() {
 async function displayData(json) {
   const forecastData = document.querySelector('.forecastData')
   const thumbRadio = forecastData.querySelectorAll('input');
-  const thumbnails = document.querySelectorAll('.thumbnail');
 
   let dataPosition;
 
@@ -288,11 +286,16 @@ async function displayForecast(json){
     const data = daysData[unitGroup];
     
     const thumbnail = thumbnails[x];
-    const child = thumbnail.children;
+    const label = thumbnail.children[0];
+    const child = label.children;
     
-    const thumbDate = child[0];
-    const thumbIcon = child[1];
-    const thumbTempBox = child[2];
+    const thumbDate = child[1];
+    const thumbIcon = child[2];
+    const thumbTempBox = child[3];
+
+    thumbDate.replaceChildren();
+    thumbIcon.replaceChildren();
+    thumbTempBox.replaceChildren();
 
     const thumbDateContent = document.createElement('p');
     thumbDateContent.textContent = data.thumbnailDate;
@@ -337,12 +340,13 @@ submitLocationButton.addEventListener("click", (event) => {
 
   checkSearchValid();
 });
-
 usUnitRadio.addEventListener("change", () => {
   displayData(weatherData);
+  displayForecast(weatherData);
 });
 metricUnitRadio.addEventListener("change", () => {
   displayData(weatherData);
+  displayForecast(weatherData);
 });
 toggleTheme.addEventListener('click', ()=>{
   const root = document.documentElement;
@@ -350,6 +354,17 @@ toggleTheme.addEventListener('click', ()=>{
   const newTheme = actualTheme === 'dark' ? 'light' : 'dark';
 
   root.setAttribute('class', newTheme)
-})
+});
+
+
+for (let x=0; x < thumbnails.length; x++){
+  const thumbnail = thumbnails[x];
+  const label = thumbnail.children[0];
+  const input = label[0];
+
+  label.addEventListener('change', ()=> {
+    displayData(weatherData)
+  })
+}
 
 getURL("paris");
